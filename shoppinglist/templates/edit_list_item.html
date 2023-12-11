@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit List Item{% endblock %}
+
+{% block content %}
+    <h1>Edit Item</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Item</button>
+    </form>
+    <a href="{% url 'shopping_list_view' item.shopping_list.id %}">Back to Shopping List</a>
+{% endblock %}
