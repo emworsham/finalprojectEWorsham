@@ -3,6 +3,8 @@ from .models import Store
 from django.contrib.auth.decorators import login_required
 from .models import ShoppingList, ListItem
 from .forms import ListItemForm
+from .forms import UserRegisterForm
+from .models import Profile
 
 def home(request):
     return render(request, 'home.html')
@@ -56,4 +58,22 @@ def delete_list_item(request, item_id):
     list_id = item.shopping_list.id
     item.delete()
     return redirect('shopping_list_view', list_id=list_id)
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            profile = Profile(user=user,
+                              street_address=form.cleaned_data['street_address'],
+                              address_2=form.cleaned_data['address_2'],
+                              city=form.cleaned_data['city'],
+                              state=form.cleaned_data['state'],
+                              zip_code=form.cleaned_data['zip_code'],
+                              phone_number=form.cleaned_data['phone_number'])
+            profile.save()
+            return redirect('login')  # Redirect to login page after registration
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
 
