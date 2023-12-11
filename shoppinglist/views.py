@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .models import ShoppingList, ListItem
 from .forms import ListItemForm
 
+def home(request):
+    return render(request, 'home.html')
 def dashboard(request):
     stores = Store.objects.filter(user=request.user)
     return render(request, 'dashboard.html', {'stores': stores})

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Shopping List App{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Welcome to the Shopping List App</h1>
+        <p>This is a simple and efficient way to manage your shopping lists.</p>
+
+        <h2>Features:</h2>
+        <ul>
+            <li>Create and manage multiple shopping lists</li>
+            <li>Add, edit, and delete items from your lists</li>
+            <li>Organize lists by store</li>
+            <li>Mark items as completed</li>
+            <li>View nutritional information for various food items</li>
+        </ul>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}">Go to your Dashboard</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> or
+            <!-- <a href="{% url 'register' %}">Register</a> to start using the app. -->
+        {% endif %}
+    </div>
+{% endblock %}
