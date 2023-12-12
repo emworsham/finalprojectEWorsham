@@ -4,6 +4,7 @@ from django import forms
 from .models import ListItem
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Store
 from .models import Profile
 
 class ListItemForm(forms.ModelForm):
@@ -28,3 +29,8 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email',
                   'street_address', 'address_2', 'city', 'state', 'zip_code', 'phone_number']
+
+class StoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ['name']

@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- shoppinglist/templates/shoppinglist/dashboard.html -->
 
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Dashboard</h2>
+  <p>Welcome, {{ user.username }}!</p>
+
+  <h3>Your Stores:</h3>
+  <ul>
+    {% for store in stores %}
+      <li>{{ store.name }}</li>
+      <!-- Add more details or links to each store's shopping list here -->
+    {% empty %}
+      <li>No stores created yet.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'create_store' %}">Create a New Store</a>
+  <!-- Add a link or form to create a new shopping list here -->
+
+{% endblock %}

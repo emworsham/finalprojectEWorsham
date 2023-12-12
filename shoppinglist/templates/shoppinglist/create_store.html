@@ -1,0 +1,12 @@
+<!-- shoppinglist/templates/shoppinglist/create_store.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Create a New Store</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Store</button>
+  </form>
+{% endblock %}

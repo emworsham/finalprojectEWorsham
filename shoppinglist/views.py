@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Store
+from .models import Store, ShoppingList, ListItem
 from django.contrib.auth.decorators import login_required
-from .models import ShoppingList, ListItem
-from .forms import ListItemForm
+from .forms import ListItemForm, StoreForm
 from .forms import UserRegisterForm
 from .models import Profile
 
 def home(request):
     return render(request, 'home.html')
+@login_required
 def dashboard(request):
+    # Assuming each Store is linked to a User
     stores = Store.objects.filter(user=request.user)
     return render(request, 'dashboard.html', {'stores': stores})
 
@@ -76,4 +77,18 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
+
+@login_required
+def create_store(request):
+    if request.method == 'POST':
+        form = StoreForm(request.POST)
+        if form.is_valid():
+            store = form.save(commit=False)
+            store.user = request.user  # Set the store's user to the current user
+            store.save()
+            return redirect('dashboard')  # Redirect to the dashboard after creating the store
+    else:
+        form = StoreForm()
+
+    return render(request, 'shoppinglist/create_store.html', {'form': form})
 
