@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Store, ShoppingList, ListItem
 from django.contrib.auth.decorators import login_required
-from .forms import ListItemForm, StoreForm
-from .forms import UserRegisterForm
-from .models import Profile
+from .models import Store, ShoppingList, ListItem, ShoppingListItem, Profile
+from .forms import ListItemForm, StoreForm, UserRegisterForm, ShoppingListItemForm
+from django.forms.models import inlineformset_factory
+from .forms import ShoppingListForm
+
 
 def home(request):
     return render(request, 'home.html')
@@ -91,4 +92,45 @@ def create_store(request):
         form = StoreForm()
 
     return render(request, 'shoppinglist/create_store.html', {'form': form})
+
+@login_required
+def edit_store(request, store_id):
+    store = get_object_or_404(Store, id=store_id, user=request.user)
+    if request.method == 'POST':
+        form = StoreForm(request.POST, instance=store)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = StoreForm(instance=store)
+
+    return render(request, 'shoppinglist/edit_store.html', {'form': form})
+
+@login_required
+def delete_store(request, store_id):
+    store = get_object_or_404(Store, id=store_id, user=request.user)
+    if request.method == 'POST':
+        store.delete()
+        return redirect('dashboard')
+    return render(request, 'shoppinglist/delete_store.html', {'store': store})
+
+@login_required
+def create_shopping_list(request, store_id):
+    store = get_object_or_404(Store, id=store_id, user=request.user)
+    ShoppingListItemFormSet = inlineformset_factory(ShoppingList, ShoppingListItem, form=ShoppingListItemForm, extra=1)
+
+    # Create a new ShoppingList instance related to the store
+    if request.method == 'POST':
+        shopping_list = ShoppingList(store=store)  # Assuming your ShoppingList model has a 'store' field
+        formset = ShoppingListItemFormSet(request.POST, instance=shopping_list)
+
+        if formset.is_valid():
+            formset.save()
+            return redirect('dashboard')  # Redirect to the dashboard or relevant page
+    else:
+        # Create an empty ShoppingList instance to pass to the formset
+        shopping_list = ShoppingList(store=store)
+        formset = ShoppingListItemFormSet(instance=shopping_list)
+
+    return render(request, 'shoppinglist/create_shopping_list.html', {'formset': formset, 'store': store})
 

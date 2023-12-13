@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Create Shopping List for {{ store.name }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="form-row">
+            {{ form.as_p }}
+        </div>
+    {% endfor %}
+    <button type="submit">Save Shopping List</button>
+  </form>
+  <a href="#" id="add-more">Add More Rows</a>
+
+  <!-- JavaScript for adding more rows -->
+  <script>
+    document.getElementById('add-more').addEventListener('click', function(e) {
+        e.preventDefault();
+        var totalForms = document.querySelector("#id_items-TOTAL_FORMS");
+        var formCount = parseInt(totalForms.value);
+        var newForm = document.querySelector('.form-row').cloneNode(true);
+
+        // Update the form indices
+        newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, '-' + formCount + '-');
+
+        // Insert the new form at the end of the formset
+        var formset = document.querySelector('form');
+        formset.insertBefore(newForm, this);
+
+        // Increment the form count
+        totalForms.value = formCount + 1;
+    });
+  </script>
+{% endblock %}

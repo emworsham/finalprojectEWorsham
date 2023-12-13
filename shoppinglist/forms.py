@@ -5,6 +5,8 @@ from .models import ListItem
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Store
+from .models import ShoppingList
+from .models import ShoppingListItem
 from .models import Profile
 
 class ListItemForm(forms.ModelForm):
@@ -33,4 +35,15 @@ class UserRegisterForm(UserCreationForm):
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
+        fields = ['name']
+
+
+class ShoppingListForm(forms.ModelForm):
+    class Meta:
+        model = ShoppingList
+        fields = ['name', 'items']
+
+class ShoppingListItemForm(forms.ModelForm):
+    class Meta:
+        model = ShoppingListItem
         fields = ['name']

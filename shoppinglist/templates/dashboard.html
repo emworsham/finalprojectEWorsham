@@ -9,7 +9,14 @@
   <h3>Your Stores:</h3>
   <ul>
     {% for store in stores %}
-      <li>{{ store.name }}</li>
+      <li class="store-item">
+        <span class="store-name">{{ store.name }}</span>
+         <span class="store-actions">
+          <a href="{% url 'edit_store' store.id %}">Edit Store Name</a> |
+          <a href="{% url 'delete_store' store.id %}">Delete Store</a> |
+          <a href="{% url 'create_shopping_list' store.id %}">Add Shopping List to Store</a>
+        </span>
+      </li>
       <!-- Add more details or links to each store's shopping list here -->
     {% empty %}
       <li>No stores created yet.</li>

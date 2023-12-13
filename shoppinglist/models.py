@@ -7,6 +7,15 @@ class Store(models.Model):
 
 class ShoppingList(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default="ie date or name of function this list is for")
+    items = models.TextField(default="")
+
+class ShoppingListItem(models.Model):
+    shopping_list = models.ForeignKey(ShoppingList, related_name='shopping_list_items', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)  # Example field
+
+    def __str__(self):
+        return self.name
 
 class ListItem(models.Model):
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE)

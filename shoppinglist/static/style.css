@@ -90,3 +90,29 @@ button:hover, input[type="submit"]:hover {
         width: 95%;
     }
 }
+
+.dashboard-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-item span {
+    margin-right: 10px;  /* Adjust spacing as needed */
+}
+
+.store-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Optional: adds a bottom border to each item */
+}
+
+.store-name {
+    font-weight: bold; /* Optional: makes the store name bold */
+}
+
+.store-actions a {
+    margin-right: 10px; /* Spacing between action links */
+}
