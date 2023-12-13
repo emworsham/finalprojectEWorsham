@@ -1,5 +1,3 @@
-<!-- shoppinglist/templates/shoppinglist/dashboard.html -->
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -10,20 +8,30 @@
   <ul>
     {% for store in stores %}
       <li class="store-item">
-        <span class="store-name">{{ store.name }}</span>
-         <span class="store-actions">
-          <a href="{% url 'edit_store' store.id %}">Edit Store Name</a> |
-          <a href="{% url 'delete_store' store.id %}">Delete Store</a> |
-          <a href="{% url 'create_shopping_list' store.id %}">Add Shopping List to Store</a>
-        </span>
+        <div class="store-details">
+          <span class="store-name">{{ store.name }}</span>
+          <span class="store-actions">
+            <a href="{% url 'edit_store' store.id %}">Edit Store Name</a> |
+            <a href="{% url 'delete_store' store.id %}">Delete Store</a>
+          </span>
+        </div>
+        <div class="shopping-lists">
+          <h4>Shopping Lists:</h4>  <a href="{% url 'create_shopping_list' store.id %}">Add Shopping List to Store</a>
+          <ul>
+            {% for shopping_list in store.shoppinglist_set.all %}
+              <li>
+                <a href="{% url 'view_shopping_list' shopping_list.id %}">{{ shopping_list.name }}</a> | <a href="{% url 'delete_shopping_list' shopping_list.id %}">Delete Shopping List</a>
+              </li>
+            {% empty %}
+              <li>No shopping lists for this store.</li>
+            {% endfor %}
+          </ul>
+        </div>
       </li>
-      <!-- Add more details or links to each store's shopping list here -->
     {% empty %}
       <li>No stores created yet.</li>
     {% endfor %}
   </ul>
 
   <a href="{% url 'create_store' %}">Create a New Store</a>
-  <!-- Add a link or form to create a new shopping list here -->
-
 {% endblock %}

@@ -10,6 +10,18 @@
 <body>
     <header>
         <!-- Common header content like navigation goes here -->
+        <nav>
+            {% if user.is_authenticated %}
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                {% csrf_token %}
+                </form>
+                <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Logout</a> |
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            <!-- Add other navigation links if necessary -->
+        </nav>
     </header>
 
     <main>

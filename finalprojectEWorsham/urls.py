@@ -26,5 +26,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('dashboard/', shoppinglist_views.dashboard, name='dashboard'),
+    path('logout/',shoppinglist_views.custom_logout, name='logout'),
 
 ]

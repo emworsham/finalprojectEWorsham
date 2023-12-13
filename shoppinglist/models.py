@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Store(models.Model):
     name = models.CharField(max_length=100)
@@ -7,7 +8,11 @@ class Store(models.Model):
 
 class ShoppingList(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, default="ie date or name of function this list is for")
+
+    def current_date():
+        return datetime.now().strftime("%m-%d-%Y")
+
+    name = models.CharField(max_length=100, default=current_date)
     items = models.TextField(default="")
 
 class ShoppingListItem(models.Model):

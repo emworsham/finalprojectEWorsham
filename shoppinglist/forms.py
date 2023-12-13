@@ -47,3 +47,5 @@ class ShoppingListItemForm(forms.ModelForm):
     class Meta:
         model = ShoppingListItem
         fields = ['name']
+
+    name = forms.CharField(label='Item')

@@ -91,6 +91,7 @@ button:hover, input[type="submit"]:hover {
     }
 }
 
+/* Dashboard Items */
 .dashboard-item {
     display: flex;
     align-items: center;
@@ -102,17 +103,72 @@ button:hover, input[type="submit"]:hover {
 }
 
 .store-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: block; /* Changed to block for better control over child elements */
     padding: 10px;
     border-bottom: 1px solid #ccc; /* Optional: adds a bottom border to each item */
 }
 
 .store-name {
-    font-weight: bold; /* Optional: makes the store name bold */
+    font-weight: bold; /* Makes the store name bold */
 }
 
 .store-actions a {
     margin-right: 10px; /* Spacing between action links */
+}
+
+/* Shopping List Styling */
+.store-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Space between store details and shopping lists */
+}
+
+.shopping-lists {
+    margin-left: 20px; /* Indentation for shopping lists */
+}
+
+nav {
+    background-color: #37474F;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.link-style-button {
+    background: none; /* Remove any background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    text-decoration: underline; /* Underline to mimic a link */
+    cursor: pointer; /* Pointer cursor like links */
+    font-size: inherit; /* Inherit font size from parent */
+    padding: 0;
+    margin: 0;
+    display: inline; /* Display inline like a link */
+}
+
+.link-style-button:hover,
+.link-style-button:focus {
+    background-color: transparent; /* Keep background transparent on hover/focus */
+    color: #ddd; /* Lighter color on hover for effect */
+    text-decoration: none; /* Optional: remove underline on hover */
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.item-text {
+    margin-left: 10px;
 }

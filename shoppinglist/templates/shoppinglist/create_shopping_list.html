@@ -18,16 +18,16 @@
   <script>
     document.getElementById('add-more').addEventListener('click', function(e) {
         e.preventDefault();
-        var totalForms = document.querySelector("#id_items-TOTAL_FORMS");
+        var totalForms = document.querySelector("#id_shopping_list_items-TOTAL_FORMS");
         var formCount = parseInt(totalForms.value);
         var newForm = document.querySelector('.form-row').cloneNode(true);
 
         // Update the form indices
         newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, '-' + formCount + '-');
 
-        // Insert the new form at the end of the formset
-        var formset = document.querySelector('form');
-        formset.insertBefore(newForm, this);
+        // Insert the new form before the "Save Shopping List" button
+        var submitButton = document.querySelector('form button[type="submit"]');
+        submitButton.parentNode.insertBefore(newForm, submitButton);
 
         // Increment the form count
         totalForms.value = formCount + 1;

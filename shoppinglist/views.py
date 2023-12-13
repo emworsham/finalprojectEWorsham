@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from .models import Store, ShoppingList, ListItem, ShoppingListItem, Profile
 from .forms import ListItemForm, StoreForm, UserRegisterForm, ShoppingListItemForm
 from django.forms.models import inlineformset_factory
@@ -117,20 +118,46 @@ def delete_store(request, store_id):
 @login_required
 def create_shopping_list(request, store_id):
     store = get_object_or_404(Store, id=store_id, user=request.user)
+    shopping_list = ShoppingList(store=store)  # Create a new ShoppingList instance
     ShoppingListItemFormSet = inlineformset_factory(ShoppingList, ShoppingListItem, form=ShoppingListItemForm, extra=1)
 
-    # Create a new ShoppingList instance related to the store
     if request.method == 'POST':
-        shopping_list = ShoppingList(store=store)  # Assuming your ShoppingList model has a 'store' field
         formset = ShoppingListItemFormSet(request.POST, instance=shopping_list)
 
         if formset.is_valid():
-            formset.save()
-            return redirect('dashboard')  # Redirect to the dashboard or relevant page
+            shopping_list.save()  # First, save the ShoppingList instance
+            formset.save()  # Now save the formset
+            return redirect('dashboard')  # Redirect to the dashboard
     else:
-        # Create an empty ShoppingList instance to pass to the formset
-        shopping_list = ShoppingList(store=store)
         formset = ShoppingListItemFormSet(instance=shopping_list)
 
     return render(request, 'shoppinglist/create_shopping_list.html', {'formset': formset, 'store': store})
 
+@login_required
+def view_shopping_list(request, shopping_list_id):
+    shopping_list = get_object_or_404(ShoppingList, id=shopping_list_id)
+
+    # Ensure the user has permission to view this shopping list
+    if shopping_list.store.user != request.user:
+        return redirect('dashboard')
+
+    items = ShoppingListItem.objects.filter(shopping_list=shopping_list)
+    return render(request, 'shoppinglist/view_shopping_list.html', {'shopping_list': shopping_list, 'items': items})
+
+@login_required
+def delete_shopping_list(request, list_id):
+    shopping_list = get_object_or_404(ShoppingList, id=list_id)
+
+    # Check if the current user is allowed to delete this shopping list
+    if request.user != shopping_list.store.user:
+        return redirect('some_error_page')  # Redirect to an error page or the dashboard
+
+    if request.method == 'POST':
+        shopping_list.delete()
+        return redirect('dashboard')  # Redirect to the dashboard after deletion
+
+    return render(request, 'shoppinglist/confirm_delete.html', {'shopping_list': shopping_list})
+
+def custom_logout(request):
+    logout(request)
+    return redirect('login')

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Shopping List: {{ shopping_list.name }}</h2>
+  <div id="shopping-list-items">
+    {% for item in items %}
+      <div class="list-item" data-item-id="{{ item.id }}">
+        <input type="checkbox" class="item-checkbox">
+        <span class="item-text">{{ item.name }}</span>
+      </div>
+    {% empty %}
+      <p>No items in this shopping list.</p>
+    {% endfor %}
+  </div>
+
+  <script>
+    document.querySelectorAll('.item-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('click', function() {
+            var listItem = this.parentElement;
+            var itemText = listItem.querySelector('.item-text');
+
+            if (this.checked) {
+                itemText.style.textDecoration = 'line-through';
+                listItem.parentNode.appendChild(listItem); // Move to bottom
+            } else {
+                itemText.style.textDecoration = 'none';
+            }
+        });
+    });
+  </script>
+{% endblock %}
