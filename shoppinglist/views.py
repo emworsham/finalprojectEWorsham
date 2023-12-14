@@ -175,6 +175,6 @@ def nutritional_information(request):
 
         if response.status_code == 200:
             nutrition_data = response.json()
-        
+
 
     return render(request, 'nutritional_information.html', {'nutrition_data': nutrition_data, 'query': query})
