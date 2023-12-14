@@ -172,3 +172,37 @@ nav a:hover {
 .item-text {
     margin-left: 10px;
 }
+
+table {
+  width: 40%; /* Adjust the width as needed */
+  margin: 20px auto; /* Centers the table and adds space above and below */
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+td {
+  background-color: #ffffff;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  table {
+    width: 100%; /* Full width on smaller screens */
+  }
+}
+

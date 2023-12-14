@@ -4,7 +4,9 @@ from django.contrib.auth import logout
 from .models import Store, ShoppingList, ListItem, ShoppingListItem, Profile
 from .forms import ListItemForm, StoreForm, UserRegisterForm, ShoppingListItemForm
 from django.forms.models import inlineformset_factory
+from django.conf import settings
 from .forms import ShoppingListForm
+import requests
 
 
 def home(request):
@@ -161,3 +163,18 @@ def delete_shopping_list(request, list_id):
 def custom_logout(request):
     logout(request)
     return redirect('login')
+
+def nutritional_information(request):
+    nutrition_data = None
+    query = None
+
+    if request.method == 'POST':
+        query = request.POST.get('food_item')
+        api_url = f'https://api.api-ninjas.com/v1/nutrition?query={query}'
+        response = requests.get(api_url, headers={'X-Api-Key': settings.API_NINJAS_API_KEY})
+
+        if response.status_code == 200:
+            nutrition_data = response.json()
+        
+
+    return render(request, 'nutritional_information.html', {'nutrition_data': nutrition_data, 'query': query})

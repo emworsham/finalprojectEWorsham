@@ -16,7 +16,8 @@
                 {% csrf_token %}
                 </form>
                 <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Logout</a> |
-                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'dashboard' %}">Dashboard</a> |
+                <a href="{% url 'nutritional_information' %}">Nutritional Information</a>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
             {% endif %}

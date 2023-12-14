@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
-from .views import register
-from .views import create_store, custom_logout
+from .views import register, create_store, custom_logout, nutritional_information
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 
@@ -18,4 +17,5 @@ urlpatterns = [
     path('view_shopping_list/<int:shopping_list_id>/', views.view_shopping_list, name='view_shopping_list'),
     path('delete_shopping_list/<int:list_id>/', views.delete_shopping_list, name='delete_shopping_list'),
     path('logout/', custom_logout, name='logout'),
+    path('nutritional-information/', nutritional_information, name='nutritional_information'),
 ]

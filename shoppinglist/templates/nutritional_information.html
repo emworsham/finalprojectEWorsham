@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Nutritional Information</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="food-item">Enter a food item:</label>
+    <input type="text" id="food-item" name="food_item">
+    <button type="submit">Get Information</button>
+  </form>
+
+  {% if nutrition_data %}
+    <h3>Nutritional Information for {{ query }}</h3>
+    {% for item in nutrition_data %}
+      <table>
+        <tr><th>Name</th><td>{{ item.name }}</td></tr>
+        <tr><th>Calories</th><td>{{ item.calories }}</td></tr>
+        <tr><th>Serving Size (g)</th><td>{{ item.serving_size_g }}</td></tr>
+        <tr><th>Total Fat (g)</th><td>{{ item.fat_total_g }}</td></tr>
+        <tr><th>Saturated Fat (g)</th><td>{{ item.fat_saturated_g }}</td></tr>
+        <tr><th>Protein (g)</th><td>{{ item.protein_g }}</td></tr>
+        <tr><th>Sodium (mg)</th><td>{{ item.sodium_mg }}</td></tr>
+        <tr><th>Potassium (mg)</th><td>{{ item.potassium_mg }}</td></tr>
+        <tr><th>Cholesterol (mg)</th><td>{{ item.cholesterol_mg }}</td></tr>
+        <tr><th>Total Carbohydrates (g)</th><td>{{ item.carbohydrates_total_g }}</td></tr>
+        <tr><th>Fiber (g)</th><td>{{ item.fiber_g }}</td></tr>
+        <tr><th>Sugar (g)</th><td>{{ item.sugar_g }}</td></tr>
+      </table>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
